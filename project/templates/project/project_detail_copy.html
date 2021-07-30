@@ -1,0 +1,145 @@
+
+{% extends 'project/base.html' %}
+<form method="POST">{% csrf_token %}
+  {{ projectitemform.media }}
+<div class="card-body">
+  <div class="form-group django-ckeditor-widget">
+    <label>Task</label>
+<textarea cols="40" id="id_content" name="content" rows="10" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype"></textarea>
+{% url 'project_item_status_update' pk=project_item.pk %}
+  </div>
+  <div class="form-group">
+    <label>Start Date</label>
+      <input type="date" name='start_date' class="form-control">
+  </div>
+  <div class="form-group">
+    <label>End Date</label>
+      <input type="date" name='end_date' class="form-control">
+  </div>
+</div>
+
+<!-- {{ form.as_p }} -->
+<div class="row">
+  <div class="col-md-12">
+    <input type="submit" value="Save" class="btn btn-success float-right">
+  </div>
+</div>
+</form>
+{% block content %}
+    <article class="post">
+      <aside class="actions">
+            <a class="btn btn-default" href="{% url 'project_edit' pk=project.pk %}">
+              Edit
+            </a>
+      </aside>
+      <aside class="actions">
+        <a class="btn btn-default">
+
+          </a>
+      </aside>
+        <h2>{{ project.title }}</h2>
+        <p>{{ project.content|safe }}</p>
+           <br><br><br><br>
+        <aside class="actions">
+              <a class="btn btn-default" href="{% url 'project_item_add' pk=project.pk %}">
+                Add Tasks
+              </a>
+        </aside>
+         <br><br><br><br>
+
+        {% for project_item in projects %}
+                <p>{{ project_item.content|safe }}</p>
+                <a class="btn btn-default" href="{% url 'project_item_edit' pk=project_item.pk %}">
+                  Edit
+                </a>
+                <a class="btn btn-default">
+                  <form action="{% url 'project_item_delete' pk=project_item.pk %}" method="POST">
+                      {% csrf_token %}
+                      <input class="btn btn-default btn-danger" name="delete" type="submit" value="Delete"/>
+                    </form>
+                  </a>
+        {% endfor %}
+    </article>
+{% endblock %}
+<h2>New Project</h2>
+<form method="POST" class="post-form"><input type="hidden" name="csrfmiddlewaretoken" value="hRJVYIlxPIyOgTByR6Sv03e1ZatDXP3JbdGp7hwYyG64bu0bNIutiesu3Nedjt75">
+    <script type="text/javascript" src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+<script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+    <p><label for="id_content">Content:</label> <div class="django-ckeditor-widget" data-field-id="id_content" style="display: inline-block;">
+<textarea cols="40" id="id_content" name="content" rows="10" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype">&lt;p&gt;test121&lt;/p&gt;</textarea>
+</div></p>
+<p><label for="id_start_date">Start date:</label> <input type="text" name="start_date" id="id_start_date"></p>
+<p><label for="id_end_date">End date:</label> <input type="text" name="end_date" id="id_end_date"></p>
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>
+
+{% extends 'project/base.html' %}
+
+{% block content %}
+    <h2>New Project</h2>
+    <form method="POST" class="post-form">{% csrf_token %}
+        {{ projectitemform.media }}
+        {{ projectitemform.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
+{% extends 'project/base.html' %}
+
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Project Task Add</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <form method="POST">{% csrf_token %}
+              {{ projectitemform.media }}
+            <div class="card-body">
+              <div class="form-group django-ckeditor-widget">
+                <label>Task</label>
+<textarea cols="40" id="id_content" name="content" rows="10" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype"></textarea>
+
+              </div>
+              <div class="form-group">
+                <label>Start Date</label>
+                  <input type="date" name='start_date' class="form-control">
+              </div>
+              <div class="form-group">
+                <label>End Date</label>
+                  <input type="date" name='end_date' class="form-control">
+              </div>
+            </div>
+
+            <!-- {{ form.as_p }} -->
+            <div class="row">
+              <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-success float-right">
+              </div>
+            </div>
+            </form>
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+
+    </section>
+{% endblock %}
+<h2>New Project</h2>
+<form method="POST" class="post-form"><input type="hidden" name="csrfmiddlewaretoken" value="9yK3HphbvsZa1UwHmtM60xMstXrJrhIi3UHxQYsCeqxqWvVki5o4iI0VxAcjNVME">
+    <script type="text/javascript" src="/static/ckeditor/ckeditor-init.js" data-ckeditor-basepath="/static/ckeditor/ckeditor/" id="ckeditor-init-script"></script>
+<script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+    <p><label for="id_content">Content:</label> <div class="django-ckeditor-widget" data-field-id="id_content" style="display: inline-block;">
+<textarea cols="40" id="id_content" name="content" rows="10" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype">&lt;p&gt;test121&lt;/p&gt;</textarea>
+</div></p>
+<p><label for="id_start_date">Start date:</label> <input type="text" name="start_date" value="2001-12-12" id="id_start_date"></p>
+<p><label for="id_end_date">End date:</label> <input type="text" name="end_date" value="2001-01-12" id="id_end_date"></p>
+    <button type="submit" class="save btn btn-default">Save</button>
+</form>

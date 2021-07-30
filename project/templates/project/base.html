@@ -1,0 +1,62 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="{{ request.LANGUAGE_CODE }}">
+<head>
+	<title>Projects Management Tool</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+  <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+</head>
+
+<body>
+	<div id="wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="{% url 'project_list' %}">Project Management Tool</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'project_list' %}">Projects <span class="sr-only">(current)</span></a>
+          </li>
+					{% if request.user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'project_add' %}">Project Add</a>
+          </li>
+					{% endif %}
+					<li class="nav-item">
+						<a href="#" class="nav-link">Contact</a>
+					</li>
+					<form class="form-inline my-2 my-lg-0">
+	          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+	          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+	        </form>
+          <li class="nav-item">
+						<span class=hello-msg>Hello, {{ request.user }}</span>
+						<span><a href="{% url 'logout' %}">Logout</a></span>
+          </li>
+        </ul>
+      </div>
+    </nav>
+		<div id="content" class="container-fluid body-margin">
+			<div class="main-div" style="margin-top:65px">
+				{% block content %}
+				{% endblock content %}
+			</div>
+		</div>
+		<div id="footer">
+		</div>
+	</div>
+
+</body>
+<!-- jQuery -->
+<script src="../../static/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../static/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../static/dist/js/adminlte.min.js"></script>
+</html>

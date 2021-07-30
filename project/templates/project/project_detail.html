@@ -1,0 +1,83 @@
+{% extends 'project/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+  <div class="col-12">
+    {% if request.user.is_superuser %}
+      <div class="text-right">
+        <a href="{% url 'project_item_add' pk=project.pk %}" class="btn btn-sm btn-primary">Add Tasks</a>
+
+      </div>
+    {% endif %}
+    <h3 class="">Detail of {{ project.title }}</h3>
+      <div class="post">
+        <div class="user-block">
+          <!-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image"> -->
+          <span class="username">
+            <a href="#">{{ project.user }}</a>
+          </span>
+          <span class="description">Project Created On: {{ project.created_date }}</span>
+        </div>
+        <!-- /.user-block -->
+        <p>
+          {{ project.content|safe }}
+
+        </p>
+        <p>
+          <span class="description">State Date: {{ project.start_date }}</span>
+          <span class="description">End Date: {{ project.end_date }}</span>
+        </p>
+        {% if request.user.is_superuser %}
+        <span class="btn btn-outline-info" style="margin:10px;">
+          <a class="" href="{% url 'project_edit' pk=project.pk %}">Edit</a>
+        </span>
+        <span class="">
+          <a class="">
+            <form action="{% url 'project_delete' pk=project.pk %}" method="POST">{% csrf_token %}
+              <input class="btn btn-outline-danger" style="margin:10px;"; name="delete" type="submit" value="Delete"/>
+            </form>
+          </a>
+        </span>
+        {% endif %}
+      </div>
+  </div>
+</div>
+
+<div class="row">
+    {% for project_item in projects %}
+    <div class="col-sm">
+    <div class="info-box bg-light" style="padding:10px;">
+      <div class="info-box-content">
+        <div class="text-center">{{ project_item.content|safe }}</div>
+        <p class="info-box-number text-center text-muted mb-0">Status: {{ project_item.get_status_display  }}</p>
+        <p class="info-box-number text-center text-muted mb-0">{{ project_item.start_date }} - {{ project_item.end_date }}</p>
+            {% if request.user.is_superuser %}
+            <span class="btn btn-outline-info" style="margin:10px;">
+              <a class="" href="{% url 'project_item_edit' pk=project_item.pk %}">Edit</a>
+            </span>
+            <span class="">
+              <a class="">
+                <form action="{% url 'project_item_delete' pk=project_item.pk %}" method="POST">{% csrf_token %}
+                  <input class="btn btn-outline-danger" style="margin:10px;"; name="delete" type="submit" value="Delete"/>
+                </form>
+              </a>
+            </span>
+            {% endif %}
+            Status Update:
+            <span class="">
+              <a class="">
+                <form action="{% url 'project_item_status_update' pk=project_item.pk %}" method="POST">{% csrf_token %}
+                    {{ projectitemform.status|as_crispy_field }}
+                  <input class="btn btn-outline-danger" style="margin:10px;"; name="delete" type="submit" value="Update"/>
+                </form>
+              </a>
+            </span>
+      </div>
+    </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock %}

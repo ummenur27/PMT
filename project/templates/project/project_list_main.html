@@ -1,0 +1,125 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+
+
+    <!-- Main content -->
+    <section class="content">
+
+      <!-- Default box -->
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Projects</h3>
+
+          <div class="card-tools">
+            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped projects">
+              <thead>
+                  <tr>
+                      <th style="width: 1%">
+                          #
+                      </th>
+                      <th style="width: 20%">
+                          Project Name
+                      </th>
+                      <th style="width: 30%">
+                          Student Name
+                      </th>
+                      <th>
+                          Project Progress
+                      </th>
+                      <th style="width: 8%" class="text-center">
+                          Status
+                      </th>
+                      <th style="width: 20%">
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for project in projects %}
+                  <tr>
+                      <td>
+                          #
+                      </td>
+                      <td>
+                          <a>
+                              {{ project.title }}
+                          </a>
+                          <br/>
+                          <small>
+                              {{ project.created_date }}
+                          </small>
+                      </td>
+                      <td>
+                          <ul class="list-inline">
+                              <li class="list-inline-item">
+                                  {{ project.user }}
+                              </li>
+                              <!-- <li class="list-inline-item">
+                                  <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar2.png">
+                              </li>
+                              <li class="list-inline-item">
+                                  <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar3.png">
+                              </li>
+                              <li class="list-inline-item">
+                                  <img alt="Avatar" class="table-avatar" src="../../dist/img/avatar4.png">
+                              </li> -->
+                          </ul>
+                      </td>
+                      <td class="project_progress">
+                          <div class="progress progress-sm">
+                              <div class="progress-bar bg-green" role="progressbar" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100" style="width: 57%">
+                              </div>
+                          </div>
+                          <small>
+                            {{ project.get_status_display }}
+                          </small>
+                      </td>
+                      <td class="project-state">
+                          <span class="badge badge-success">{{ project.get_status_display }}</span>
+                      </td>
+
+                      <td class="project-actions text-right">
+                          <a class="btn btn-primary btn-sm" href="{% url 'project_detail' pk=project.pk %}"">
+                              <i class="fas fa-folder">
+                              </i>
+                              View
+                          </a>
+                          {% if request.user.is_superuser %}
+                          <a class="btn btn-info btn-sm" href="{% url 'project_edit' pk=project.pk %}">
+                              <i class="fas fa-pencil-alt">
+                              </i>
+                              Edit
+                          </a>
+
+
+                              <a class="btn-sm">
+                                <i class="fas fa-trash">
+                                <form action="{% url 'project_delete' pk=project.pk %}" method="POST">
+                                            {% csrf_token %}
+                                            <input class="btn btn-default btn-danger" name="delete" type="submit" value="Delete"/>
+                                          </form>
+                                          </i>
+                          </a>
+                            {% endif %}
+                      </td>
+
+                  </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+
+    </section>
+{% endblock %}

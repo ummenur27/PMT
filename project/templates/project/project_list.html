@@ -1,0 +1,51 @@
+{% extends 'project/base.html' %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Project Name</th>
+          <th scope="col">Assigned Student</th>
+          <th scope="col">Progress</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+
+      {% for project in projects %}
+      <tbody>
+        <tr>
+          <th scope="row">{{ forloop.counter }}</th>
+          <td>{{ project.title }} <br>
+          {{ project.created_date }}</td>
+          <td>{{ project.user }}</td>
+          <td>
+             <div class="progress progress-xs">
+              <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+              </div>
+            </td>
+            <td>
+            <span class="btn btn-outline-primary" style="margin:10px;">
+                <a class="" href="{% url 'project_detail' pk=project.pk %}">View</a>
+            </span>
+            {% if request.user.is_superuser %}
+            <span class="btn btn-outline-info" style="margin:10px;">
+              <a class="" href="{% url 'project_edit' pk=project.pk %}">Edit</a>
+            </span>
+            <span class="">
+              <a class="">
+                <form action="{% url 'project_delete' pk=project.pk %}" method="POST">{% csrf_token %}
+                  <input class="btn btn-outline-danger" style="margin:10px;"; name="delete" type="submit" value="Delete"/>
+                </form>
+              </a>
+            </span>
+            {% endif %}
+            </td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+</div>
+</div>
+{% endblock %}

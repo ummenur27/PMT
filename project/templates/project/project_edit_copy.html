@@ -1,0 +1,56 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Project Create</h3>
+
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                  <i class="fas fa-minus"></i>
+                </button>
+              </div>
+            </div>
+            <form method="POST">{% csrf_token %}
+              {{ form.media }}
+            <div class="card-body">
+              <div class="form-group">
+                <label>Project Name</label>
+                <input type="text" name='title' class="form-control">
+              </div>
+              <div class="form-group django-ckeditor-widget">
+                <label>Project Description</label>
+<textarea cols="40" id="id_content" name="content" rows="10" data-processed="0" data-config="{&quot;skin&quot;: &quot;moono-lisa&quot;, &quot;toolbar_Basic&quot;: [[&quot;Source&quot;, &quot;-&quot;, &quot;Bold&quot;, &quot;Italic&quot;]], &quot;toolbar_Full&quot;: [[&quot;Styles&quot;, &quot;Format&quot;, &quot;Bold&quot;, &quot;Italic&quot;, &quot;Underline&quot;, &quot;Strike&quot;, &quot;SpellChecker&quot;, &quot;Undo&quot;, &quot;Redo&quot;], [&quot;Link&quot;, &quot;Unlink&quot;, &quot;Anchor&quot;], [&quot;Image&quot;, &quot;Flash&quot;, &quot;Table&quot;, &quot;HorizontalRule&quot;], [&quot;TextColor&quot;, &quot;BGColor&quot;], [&quot;Smiley&quot;, &quot;SpecialChar&quot;], [&quot;Source&quot;]], &quot;toolbar&quot;: &quot;full&quot;, &quot;height&quot;: 291, &quot;width&quot;: 835, &quot;filebrowserWindowWidth&quot;: 940, &quot;filebrowserWindowHeight&quot;: 725, &quot;filebrowserUploadUrl&quot;: &quot;/ckeditor/upload/&quot;, &quot;filebrowserBrowseUrl&quot;: &quot;/ckeditor/browse/&quot;, &quot;language&quot;: &quot;en-us&quot;}" data-external-plugin-resources="[]" data-id="id_content" data-type="ckeditortype"></textarea>
+
+              </div>
+              <div class="form-group">
+                <label>Assigned Student</label>
+                {{ form.user }}
+              </div>
+              <div class="form-group">
+                <label>Start Date</label>
+                  {{ form.start_date }}
+                  <!-- <input type="date" name='start_date' class="form-control"> -->
+              </div>
+              <div class="form-group">
+                <label>End Date</label>
+                  {{ form.end_date }}
+              </div>
+            </div>
+
+            <!-- {{ form.as_p }} -->
+            <div class="row">
+              <div class="col-md-12">
+                <input type="submit" value="Save" class="btn btn-success float-right">
+              </div>
+            </div>
+            </form>
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+
+    </section>
+{% endblock %}
